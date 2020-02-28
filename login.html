@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+<h1>User Login</h1>
+<div class="loginForm">
+    Username: <br> 
+    <input type="text" id="username"><br>
+    Password: <br>
+    <input type="text" id="password">
+    <input type="button" id="loginButton">
+</div>
+<script>
+//var username = document.getElementById("username").value; 
+//var password = document.getElementById("password").value; 
+var xhttp = new XMLHttpRequest(); // create new XMLHttpRequest object
+xhttp.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200) { // readyState 4 = Done (data transfer either successful or failed), 
+        //status is the http status code of the response
+        console.log(this.responseText);
+    }
+}
+var button = document.getElementById("loginButton"); // 
+button.addEventListener("click", sendRequest);
+
+function sendRequest(){
+   var username = document.getElementById("username").value; 
+   var password = document.getElementById("password").value; 
+
+   xhttp.open("POST", 'http://localhost:8000/auth.json', true);
+   xhttp.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+   xhttp.send(JSON.stringify({"username": username, "password": password}));
+}
+
+</script>
+</body>
+</html>
