@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
 var db = mongoose.connection; // connection object 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  // we're connected!
+  console.log("db connected");
 }); // handle errors 
 
 var userDataSchema = new Schema({
@@ -21,15 +21,35 @@ var userDataSchema = new Schema({
     url: String,
     notes: String, 
     tags: [String]
-}) // created schema, which defines structure of documents in the collection 
+},{strict: false}) // created schema, which defines structure of documents in the collection 
+// strict: false means that you can add arbitrary name value pairs 
 
 var UserDataModel = mongoose.model('User', userDataSchema); // creates the users collection using the userDataSchema, UserDataModel is a "Model", a subclass of 'mongoose.Model' 
-var bob = new UserDataModel({title: 'Video', url: 'this url', notes: 'cool video i found', tags: ["tennis", "sports"]}); 
+var bob = new UserDataModel({title: 'Video', url: 'this url', notes: 'cool video i found'}); 
+/*
 bob.save(function (err, bob){
-    if (err) return console.error(err); 
-    console.log(bob); 
-})
+    if (err){
+        console.log("Error: Document not saved");
+    }
+    else {
+        console.log("Data Saved: ");
+        console.log(bob); 
+    }
+}); 
+*/
 
+// retrieve data from the database
+UserDataModel.find({}, function(err, users){
+    if (err){
+        console.log("error");
+        console.log(err);
+    }
+
+    else {
+        console.log("All Users:");
+        console.log(users);
+    }
+})
 
 fs.readFile('C:/Dev/IndStudyPractice/login.html', function(error, data){
     if (error){

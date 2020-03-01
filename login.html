@@ -24,12 +24,19 @@ xhttp.onreadystatechange = function(){
 }
 var button = document.getElementById("loginButton"); // 
 button.addEventListener("click", sendRequest);
-
+xhttp.onload = function(){
+    if (this.readyState == 4 && this.status == 200) { // readyState 4 = Done (data transfer either successful or failed), 
+        //status is the http status code of the response
+        console.log(this.responseText);
+        alert("hello");
+    }
+};
 function sendRequest(){
    var username = document.getElementById("username").value; 
    var password = document.getElementById("password").value; 
 
    xhttp.open("POST", 'http://localhost:8000/auth.json', true);
+  
    xhttp.setRequestHeader("Content-Type","application/json;charset=UTF-8");
    xhttp.send(JSON.stringify({"username": username, "password": password}));
 }
