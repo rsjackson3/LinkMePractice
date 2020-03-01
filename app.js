@@ -3,6 +3,7 @@ var mongoose = require('mongoose'); // import mongoose package
 const express = require('express'); 
 const app = express(); 
 const port = 8000; 
+app.set('view engine', 'ejs'); // for rendering ejs templates 
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
@@ -60,14 +61,13 @@ fs.readFile('C:/Dev/IndStudyPractice/login.html', function(error, data){
 }) // uses fs package to read an html file and store it in myFile variable 
 
 app.get('/', function(req, res){
-    console.log(req.body); // req is an express object that represents the HTTP request 
-    res.writeHead(200, {'Content-Type': 'text/html'}) // headers to send back, will send html to browser
-        res.write(myFile); // write html file to client in browser 
+    res.render('index');
 
 })
 
 app.post('/auth.json', function(req, res){
-    console.log(req.body);
+   // res.render('index');
+    console.log(req.body); 
 })
 
 app.listen(port, ()=>

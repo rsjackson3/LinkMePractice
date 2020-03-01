@@ -9,6 +9,7 @@
   "author": "Rand Jackson",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.0.1",
     "express": "^4.17.1",
     "mongoose": "^5.9.2"
   }
