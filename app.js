@@ -4,6 +4,7 @@ const express = require('express');
 const app = express(); 
 const port = 8000; 
 app.set('view engine', 'ejs'); // for rendering ejs templates 
+app.use(express.static(__dirname + "/public")); 
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 

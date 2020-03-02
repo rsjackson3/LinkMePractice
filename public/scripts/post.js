@@ -1,6 +1,4 @@
 
-//var username = document.getElementById("username").value; 
-//var password = document.getElementById("password").value; 
 var xhttp = new XMLHttpRequest(); // create new XMLHttpRequest object
 xhttp.onreadystatechange = function(){
     if (this.readyState == 4 && this.status == 200) { // readyState 4 = Done (data transfer either successful or failed), 
