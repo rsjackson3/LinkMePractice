@@ -3,8 +3,9 @@ var mongoose = require('mongoose'); // import mongoose package
 const express = require('express'); 
 const app = express(); 
 const port = 8000; 
+
 app.set('view engine', 'ejs'); // for rendering ejs templates 
-app.use(express.static(__dirname + "/public")); 
+app.use(express.static(__dirname + "/public")); // serve static files such as JS
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
@@ -62,9 +63,12 @@ fs.readFile('C:/Dev/IndStudyPractice/login.html', function(error, data){
 }) // uses fs package to read an html file and store it in myFile variable 
 
 app.get('/', function(req, res){
-    res.render('index');
+    // get users from db
+    UserDataModel.find({}, function(err, users){
+    res.render('index', {users: users});  // pass users to local variable in view to use in ejs file
+    });
 
-})
+});
 
 app.post('/auth.json', function(req, res){
    // res.render('index');

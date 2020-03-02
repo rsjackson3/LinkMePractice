@@ -13,7 +13,12 @@
             Tags: <input type="text" id="tags"> <br>
             <input type="button" id="addButton">
         </div>
-        
+        <h2>Loop</h2>
+        <ul>
+            <% users.forEach(function(user){ %>
+                <li>Title: <%= user.title %></li>
+          <%  }); %>
+        </ul>
         <script src="/scripts/post.js"></script>
     </body>
     
