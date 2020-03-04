@@ -71,7 +71,11 @@ app.get('/', function(req, res){
 });
 
 app.post('/auth.json', function(req, res){
-   // res.render('index');
+  
+   UserDataModel.create(req.body, function(err, userData){
+     res.redirect('/'); // won't currently redirect due to ajax not supporting redirects 
+     // (using window.location.replace on client side instead)
+   });
     console.log(req.body); 
 })
 
