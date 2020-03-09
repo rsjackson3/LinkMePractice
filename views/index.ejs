@@ -11,14 +11,21 @@
             Title: <input type="text" id="title"> <br>
             Notes: <input type="text" id="notes"> <br>
             Tags: <input type="text" id="tags"> <br>
-            <input type="button" id="addButton">
+            <button type="button" id="addButton">Add</button>
         </div>
         <h2>Loop</h2>
-        <ul>
+        
             <% users.forEach(function(user){ %>
-                <li>Title: <%= user.title %></li>
+                <div class="linkBox">Title: <%= user.title %> <br>
+                URL: <%= user.url %> <br>
+                Notes: <%= user.notes %> <br>
+                Tags: <%= user.tags %> <br>
+                <p> <a href="/posts/<%= user._id %>">More</a> <!-- link directs to show route to view full post -->
+                </p>
+                <button type="button" id="deleteButton">Delete</button>
+                </div> <br>
           <%  }); %>
-        </ul>
+        
         <script src="/scripts/post.js"></script>
     </body>
     

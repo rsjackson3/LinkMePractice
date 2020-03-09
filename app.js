@@ -70,6 +70,19 @@ app.get('/', function(req, res){
 
 });
 
+// shows full post data on separate page 
+app.get("/posts/:id", function(req, res){
+    UserDataModel.findById(req.params.id, function(err, foundPost){
+        if (err){
+            console.log(err);
+        }
+        else {
+            // render show template with post info
+            res.render("show", {post: foundPost}); 
+        }
+    })
+})
+
 app.post('/auth.json', function(req, res){
   
    UserDataModel.create(req.body, function(err, userData){
