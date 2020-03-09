@@ -3,11 +3,13 @@ var mongoose = require('mongoose'); // import mongoose package
 const express = require('express'); 
 const app = express(); 
 const port = 8000; 
+methodOverride = require("method-override"); // for DELETE and PUT requests from html forms
 
 app.set('view engine', 'ejs'); // for rendering ejs templates 
 app.use(express.static(__dirname + "/public")); // serve static files such as JS
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(methodOverride("_method")); 
 
 var mongoose = require('mongoose'); 
 var Schema = mongoose.Schema; // create schema object 
@@ -81,6 +83,19 @@ app.get("/posts/:id", function(req, res){
             res.render("show", {post: foundPost}); 
         }
     })
+})
+
+// DELETE Route to delete post 
+app.delete("/posts/:id", function(req, res){
+    UserDataModel.findByIdAndRemove(req.params.id, function(err){
+        if (err){
+            console.log(err);
+            res.redirect("/"); // redirect to home page
+        }
+        else {
+            res.redirect("/");
+        }
+    }) 
 })
 
 app.post('/auth.json', function(req, res){
