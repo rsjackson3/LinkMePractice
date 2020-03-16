@@ -15,14 +15,14 @@
         </div>
         <h2>Loop</h2>
         
-            <% users.forEach(function(user){ %>
-                <div class="linkBox">Title: <%= user.title %> <br>
-                URL: <%= user.url %> <br>
-                Notes: <%= user.notes %> <br>
-                Tags: <%= user.tags %> <br>
-                <p> <a href="/posts/<%= user._id %>">More</a> <!-- link directs to show route to view full post -->
+            <% posts.forEach(function(post){ %>
+                <div class="linkBox">Title: <%= post.title %> <br>
+                URL: <%= post.url %> <br>
+                Notes: <%= post.notes %> <br>
+                Tags: <%= post.tags %> <br>
+                <p> <a href="/posts/<%= post._id %>">More</a> <!-- link directs to show route to view full post -->
                 </p>
-                <form action="/posts/<%= user._id %>?_method=DELETE" method="POST"> <!--used method override-->
+                <form action="/posts/<%= post._id %>?_method=DELETE" method="POST"> <!--used method override-->
                     <button>Delete</button>
                 </form>
                 </div> <br>

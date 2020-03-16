@@ -13,7 +13,9 @@ app.use(methodOverride("_method"));
 
 var mongoose = require('mongoose'); 
 var Schema = mongoose.Schema; // create schema object 
+var Post = require("./models/post"); // require post schema for db
 
+// connect to test db on localhost 
 mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true}); 
 var db = mongoose.connection; // connection object 
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -21,6 +23,7 @@ db.once('open', function() {
   console.log("db connected");
 }); // handle errors 
 
+/*
 var userDataSchema = new Schema({
     title: String,
     url: String,
@@ -43,6 +46,9 @@ bob.save(function (err, bob){
 }); 
 */
 
+
+
+/*
 // retrieve data from the database
 UserDataModel.find({}, function(err, users){
     if (err){
@@ -55,7 +61,7 @@ UserDataModel.find({}, function(err, users){
         console.log(users);
     }
 })
-
+*/
 fs.readFile('C:/Dev/IndStudyPractice/login.html', function(error, data){
     if (error){
         throw error; 
@@ -66,15 +72,15 @@ fs.readFile('C:/Dev/IndStudyPractice/login.html', function(error, data){
 
 app.get('/', function(req, res){
     // get users from db
-    UserDataModel.find({}, function(err, users){
-    res.render('index', {users: users});  // pass users to local variable in view to use in ejs file
+    Post.find({}, function(err, posts){
+    res.render('index', {posts: posts});  // pass users to local variable in view to use in ejs file
     });
 
 });
 
 // shows full post data on separate page 
 app.get("/posts/:id", function(req, res){
-    UserDataModel.findById(req.params.id, function(err, foundPost){
+    Post.findById(req.params.id, function(err, foundPost){
         if (err){
             console.log(err);
         }
@@ -87,7 +93,7 @@ app.get("/posts/:id", function(req, res){
 
 // DELETE Route to delete post 
 app.delete("/posts/:id", function(req, res){
-    UserDataModel.findByIdAndRemove(req.params.id, function(err){
+    Post.findByIdAndRemove(req.params.id, function(err){
         if (err){
             console.log(err);
             res.redirect("/"); // redirect to home page
@@ -100,7 +106,7 @@ app.delete("/posts/:id", function(req, res){
 
 app.post('/auth.json', function(req, res){
   
-   UserDataModel.create(req.body, function(err, userData){
+   Post.create(req.body, function(err, postData){
      res.redirect('/'); // won't currently redirect due to ajax not supporting redirects 
      // (using window.location.replace on client side instead)
    });
