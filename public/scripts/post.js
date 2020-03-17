@@ -19,7 +19,7 @@ function sendRequest(){
 
    xhttp.open("POST", 'http://localhost:8000/auth.json', true);
    // location replace acts as a redirect as this must be done on client side when using ajax
-   xhttp.onload = window.location.replace('http://localhost:8000/'); 
+   xhttp.onload = window.location.replace('http://localhost:8000/resend'); 
    xhttp.setRequestHeader("Content-Type","application/json;charset=UTF-8");
    xhttp.send(JSON.stringify({"url": url, "title": title, "notes": notes, "tags": tags}));
    

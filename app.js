@@ -1,5 +1,6 @@
 var fs = require("fs"); // include the javascript file system 
 var mongoose = require('mongoose'); // import mongoose package
+var bodyParser = require('body-parser'); 
 const express = require('express'); 
 const app = express(); 
 const port = 8000; 
@@ -9,7 +10,12 @@ app.set('view engine', 'ejs'); // for rendering ejs templates
 app.use(express.static(__dirname + "/public")); // serve static files such as JS
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-app.use(methodOverride("_method")); 
+app.use(methodOverride("_method")); // for put and delete overrides from html form http requests
+app.use(bodyParser.urlencoded({
+    extended: false  // false means parses with querystring library as opposed to qs library 
+})); 
+
+var indexRoutes = require("./routes/index"); 
 
 var mongoose = require('mongoose'); 
 var Schema = mongoose.Schema; // create schema object 
@@ -33,14 +39,40 @@ fs.readFile('C:/Dev/IndStudyPractice/login.html', function(error, data){
     myFile = data; 
 }) // uses fs package to read an html file and store it in myFile variable 
 
+app.use("/", indexRoutes); // tell app to use indexRoutes middleware for "/"
+
+app.post("/register", function(req, res){
+    let user = new User(req.body); // create user variable to be added to db
+
+    // try to save user to db
+    user.save(function(err){
+        if (err){
+            let error = "something went wrong"; 
+
+            if (err.code === 11000){
+                error = "That email is already taken, please try another one."; 
+            }
+
+            return res.render("register", {error: error}); 
+        }
+
+            res.redirect("/dashboard"); // if no error, user is created and redirect to dashboard
+    })
+    
+})
+/*
 app.get('/', function(req, res){
     // get users from db
+    /*
     Post.find({}, function(err, posts){
+        
     res.render('index', {posts: posts});  // pass users to local variable in view to use in ejs file
     });
+    
+   res.render('register');
 
 });
-
+*/
 // shows full post data on separate page 
 app.get("/posts/:id", function(req, res){
     Post.findById(req.params.id, function(err, foundPost){
