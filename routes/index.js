@@ -15,6 +15,18 @@ router.get("/login", function(req, res){
     res.render("login"); 
 })
 
+router.post("/login", function(req, res){
+    User.findOne({email: req.body.email}, function(err, user){
+        if (err || !user || req.body.password !== user.password){ // if username or email is not found or incorrect
+            return res.render("login", {error: "incorrect email or password"});  // render login page again
+        }
+            Post.find({}, function(err, posts){
+        
+            res.render('index', {posts: posts});  // pass users to local variable in view to use in ejs file
+            }); 
+    })
+})
+
 router.post("/register", function(req, res){
     let user = new User(req.body); // create user variable to be added to db
 
