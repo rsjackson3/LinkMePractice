@@ -91,10 +91,10 @@ app.delete("/posts/:id", function(req, res){
     Post.findByIdAndRemove(req.params.id, function(err){
         if (err){
             console.log(err);
-            res.redirect("/"); // redirect to home page
+            res.redirect("/resend"); // redirect to home page
         }
         else {
-            res.redirect("/");
+            res.redirect("/resend");
         }
     }) 
 })
