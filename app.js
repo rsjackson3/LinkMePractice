@@ -15,6 +15,9 @@ app.use(bodyParser.urlencoded({
     extended: false  // false means parses with querystring library as opposed to qs library 
 })); 
 
+const sessions = require("client-sessions"); // for cookies and authentication
+
+
 var indexRoutes = require("./routes/index"); 
 
 var mongoose = require('mongoose'); 
@@ -39,27 +42,14 @@ fs.readFile('C:/Dev/IndStudyPractice/login.html', function(error, data){
     myFile = data; 
 }) // uses fs package to read an html file and store it in myFile variable 
 
+app.use(sessions({
+    cookieName: "session",
+    secret: "sawoijwe2322lkjs", // hide this on production server, this is just test
+    duration: 30 * 60 * 1000, // 30 minute expiration
+})); 
+
 app.use("/", indexRoutes); // tell app to use indexRoutes middleware for "/"
 
-app.post("/register", function(req, res){
-    let user = new User(req.body); // create user variable to be added to db
-
-    // try to save user to db
-    user.save(function(err){
-        if (err){
-            let error = "something went wrong"; 
-
-            if (err.code === 11000){
-                error = "That email is already taken, please try another one."; 
-            }
-
-            return res.render("register", {error: error}); 
-        }
-
-            res.redirect("/dashboard"); // if no error, user is created and redirect to dashboard
-    })
-    
-})
 /*
 app.get('/', function(req, res){
     // get users from db
@@ -91,10 +81,10 @@ app.delete("/posts/:id", function(req, res){
     Post.findByIdAndRemove(req.params.id, function(err){
         if (err){
             console.log(err);
-            res.redirect("/resend"); // redirect to home page
+            res.redirect("/dashboard"); // redirect to home page
         }
         else {
-            res.redirect("/resend");
+            res.redirect("/dashboard");
         }
     }) 
 })

@@ -18,16 +18,45 @@ router.get("/login", function(req, res){
     res.render("login"); 
 })
 
+// dashboard route
+router.get("/dashboard", function(req, res, next){
+    if (!(req.session && req.session.userId)){
+        return res.redirect("login");
+    }
+
+    // get user from db by using userId
+    User.findById(req.session.userId, function(err, user){
+        if (err){
+            return next(err); 
+        }
+
+        if (!user){
+            return res.redirect("/login");
+        }
+
+        Post.find({}, function(err, posts){
+        
+            res.render('dashboard', {posts: posts});  // pass users to local variable in view to use in ejs file
+            });
+    })
+})
+
 // login validation route 
 router.post("/login", function(req, res){
     User.findOne({email: req.body.email}, function(err, user){
         if (err || !user || req.body.password !== user.password){ // if username or email is not found or incorrect
             return res.render("login", {error: "incorrect email or password"});  // render login page again
         }
+            req.session.userId = user._id; // use the user's object id for session ID
+            /*
             Post.find({}, function(err, posts){ // query to find all posts
-        
             res.render('index', {posts: posts});  // pass users to local variable in view to use in ejs file
-            }); 
+            });
+            */
+
+            res.redirect("/dashboard"); 
+
+        
     })
 })
 
@@ -46,20 +75,19 @@ router.post("/register", function(req, res){
 
             return res.render("register", {error: error}); 
         }
-            Post.find({}, function(err, posts){
-        
-            res.render('index', {posts: posts});  // pass users to local variable in view to use in ejs file
-            });
+            res.redirect("/dashboard"); // if no error, user is created and redirect to dashboard
+
+            
           //  res.redirect("/"); // if no error, user is created and redirect to dashboard
     })
     
-})
+});
 
 // resend route for deleting posts (and later for adding posts)
 router.get("/resend", function(req, res){
     Post.find({}, function(err, posts){
         
-        res.render('index', {posts: posts});  // pass users to local variable in view to use in ejs file
+        res.render('dashboard', {posts: posts});  // pass users to local variable in view to use in ejs file
         }); 
 })
 module.exports = router; 
