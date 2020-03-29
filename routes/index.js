@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router(); 
 var User = require("../models/user"); 
 var Post = require("../models/post"); // require post schema for db
+var bcrypt = require('bcryptjs'); // for password hashing
 
 // root route 
 router.get("/", function(req, res){
@@ -44,7 +45,7 @@ router.get("/dashboard", function(req, res, next){
 // login validation route 
 router.post("/login", function(req, res){
     User.findOne({email: req.body.email}, function(err, user){
-        if (err || !user || req.body.password !== user.password){ // if username or email is not found or incorrect
+        if (!user || !bcrypt.compareSync(req.body.password, user.password)){ // if username or email is not found or incorrect
             return res.render("login", {error: "incorrect email or password"});  // render login page again
         }
             req.session.userId = user._id; // use the user's object id for session ID
@@ -62,10 +63,12 @@ router.post("/login", function(req, res){
 
 // register post route 
 router.post("/register", function(req, res){
+    let hash = bcrypt.hashSync(req.body.password, 14); // don't hard code work factor in production
+    req.body.password = hash;
     let user = new User(req.body); // create user variable to be added to db
 
     // try to save user to db
-    user.save(function(err){
+    user.save(function(err, newUser){
         if (err){
             let error = "something went wrong"; 
 
@@ -75,6 +78,7 @@ router.post("/register", function(req, res){
 
             return res.render("register", {error: error}); 
         }
+            req.session.userId = newUser._id; // set session cookie for new user
             res.redirect("/dashboard"); // if no error, user is created and redirect to dashboard
 
             
