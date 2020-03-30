@@ -6,13 +6,15 @@
         
     </head>
     <body>
+        <form action="/dashboard" method="POST">
         <div class="addForm">
-            URL: <input type="text" id="url"><br>
-            Title: <input type="text" id="title"> <br>
-            Notes: <input type="text" id="notes"> <br>
-            Tags: <input type="text" id="tags"> <br>
-            <button type="button" id="addButton">Add</button>
+            URL: <input type="text" name="url" id="url"><br>
+            Title: <input type="text" name="title" id="title"> <br>
+            Notes: <input type="text" name="notes" id="notes"> <br>
+            Tags: <input type="text" name="tags" id="tags"> <br>
+            <input type="submit">
         </div>
+        </form>
         <h2>Loop</h2>
         
             <% posts.forEach(function(post){ %>
@@ -28,7 +30,7 @@
                 </div> <br>
           <%  }); %>
         
-        <script src="/scripts/post.js"></script>
+        
     </body>
     
 </html>

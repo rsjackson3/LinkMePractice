@@ -89,10 +89,10 @@ app.delete("/posts/:id", function(req, res){
     }) 
 })
 
-app.post('/auth.json', function(req, res){
+app.post('/dashboard', function(req, res){
   
    Post.create(req.body, function(err, postData){
-     res.redirect('/'); // won't currently redirect due to ajax not supporting redirects 
+     res.redirect('/dashboard'); // won't currently redirect due to ajax not supporting redirects 
      // (using window.location.replace on client side instead)
    });
     console.log(req.body); 
