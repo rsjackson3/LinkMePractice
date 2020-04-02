@@ -94,5 +94,14 @@ router.get("/resend", function(req, res){
         
         res.render('dashboard', {posts: posts});  // pass users to local variable in view to use in ejs file
         }); 
-})
+});
+
+// logout route 
+router.get("/logout", function(req, res){
+    if (req.session){
+        req.session.reset(); // reset cookie 
+    }
+
+    res.redirect("/"); // redirect to landing page 
+});
 module.exports = router; 
