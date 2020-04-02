@@ -90,12 +90,17 @@ app.delete("/posts/:id", function(req, res){
 })
 
 app.post('/dashboard', function(req, res){
-  
-   Post.create(req.body, function(err, postData){
-     res.redirect('/dashboard'); // won't currently redirect due to ajax not supporting redirects 
-     // (using window.location.replace on client side instead)
+  // add new post to database 
+   Post.create({
+       title: req.body.title, 
+       url: req.body.url, 
+       notes: req.body.notes, 
+       user: req.session.userId,  // use session userId to associate post with user
+       tags: req.body.tags}, function(err, postData){
+     res.redirect('/dashboard'); 
    });
     console.log(req.body); 
+    
 })
 
 app.listen(port, ()=>

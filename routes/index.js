@@ -35,7 +35,8 @@ router.get("/dashboard", function(req, res, next){
             return res.redirect("/login");
         }
 
-        Post.find({}, function(err, posts){
+        // need this to find each post with a user id that equals req.session.userId
+        Post.find({user: req.session.userId}, function(err, posts){
         
             res.render('dashboard', {posts: posts});  // pass users to local variable in view to use in ejs file
             });

@@ -3,7 +3,8 @@ var mongoose = require("mongoose");
 var postSchema = new mongoose.Schema({
     title: String,
     url: String,
-    notes: String, 
+    notes: String,
+    user: String,
     tags: [String]
 },{strict: false}) // created schema, which defines structure of documents in the collection 
 // strict: false means that you can add arbitrary name value pairs 
