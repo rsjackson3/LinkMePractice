@@ -90,13 +90,14 @@ app.delete("/posts/:id", function(req, res){
 })
 
 app.post('/dashboard', function(req, res){
+    var tags = req.body.tags.split(','); // make tags an array separated by comma delimiter 
   // add new post to database 
    Post.create({
        title: req.body.title, 
        url: req.body.url, 
        notes: req.body.notes, 
        user: req.session.userId,  // use session userId to associate post with user
-       tags: req.body.tags}, function(err, postData){
+       tags: tags}, function(err, postData){
      res.redirect('/dashboard'); 
    });
     console.log(req.body); 
