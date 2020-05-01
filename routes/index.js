@@ -17,7 +17,7 @@ router.get("/register", function(req, res){
 // login page route
 router.get("/login", function(req, res){
     res.render("login"); 
-})
+});
 
 // dashboard route
 router.get("/dashboard", function(req, res, next){

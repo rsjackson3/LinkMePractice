@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <title>Index</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     </head>
     <body>
         
@@ -20,7 +21,16 @@
         </div>
     
         </form>
-        <h2>Loop</h2>
+        <!--
+        <div class="sortDropdown">
+        <label for="sort">Choose a field to sort alphabetically:</label>
+        <select id="sort">
+            <option value="title">Title</option>
+            <option value="test">Test</option>
+        </select>
+        </div>
+        -->
+        <h2>Your Saved URLs:</h2>
         
             <% posts.forEach(function(post){ %>
                 <div class="linkBox">Title: <%= post.title %> <br>
@@ -40,7 +50,7 @@
             <input type="submit" placeholder="Logout">
         
         </form></h3>
-        
+       <!--src="/scripts/sort.js"></script>--> 
     </body>
     
 </html>
